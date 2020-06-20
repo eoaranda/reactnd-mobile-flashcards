@@ -34,7 +34,7 @@ const DeckDetail = (props) => {
   const handleDeleteDeck = () => {
     Alert.alert(
       "Delete",
-      "Are you sure you want to delete this deck ? (Note default decks will load after restarting the App) ",
+      "Are you sure you want to delete this deck ? (Note: default decks will load after restarting the App) ",
       [
         {
           text: "Cancel",

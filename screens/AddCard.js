@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { View, Text, StyleSheet, TextInput } from "react-native";
 import Colors from "../constants/Colors";
 import Button from "../components/Button";
@@ -7,18 +7,18 @@ import { addCard } from "../data/api";
 
 const AddCard = (props) => {
   const { navigation } = props;
-  const [anwser, setAnswer] = useState("");
+  const [answer, setAnswer] = useState("");
   const [question, setQuestion] = useState("");
-
+  const [disableSave, setDisableSave] = useState(true);
   const deckId = navigation.getParam("deckId");
 
   const handleSubmit = () => {
-      const newCard = {
-        question: question,
-        answer: anwser,
-      };
-      addCard(deckId, newCard);
-      navigation.navigate("DeckDetail", { add: 1});
+    const newCard = {
+      question: question,
+      answer: answer,
+    };
+    addCard(deckId, newCard);
+    navigation.navigate("DeckDetail", { add: 1 });
   };
 
   const handleQuestion = (inputText) => {
@@ -28,6 +28,18 @@ const AddCard = (props) => {
   const handleAnswer = (inputText) => {
     setAnswer(inputText);
   };
+
+  const handleButton = () => {
+    if (question.length >= 1 && answer.length >= 1) {
+      setDisableSave(false);
+    } else {
+      setDisableSave(true);
+    }
+  };
+
+  useEffect(() => {
+    handleButton();
+}, [question,answer]);
 
 
   return (
@@ -42,10 +54,16 @@ const AddCard = (props) => {
       <Text style={DefaultStyles.label}>Answer: </Text>
       <TextInput
         style={DefaultStyles.input}
-        value={anwser}
+        value={answer}
         onChangeText={handleAnswer}
       />
-      <Button text="Add Card" type="outlined" color={Colors.successColor} onPress={handleSubmit} />
+      <Button
+        text="Add Card"
+        disabled={disableSave}
+        type="outlined"
+        color={Colors.successColor}
+        onPress={handleSubmit}
+      />
     </View>
   );
 };

@@ -10,7 +10,11 @@ const Button = ({
   rounded = false,
   size = "large",
   color = "#e7e7e7",
+  disabled = false,
 }) => {
+  if (disabled == true) {
+    color = "#D3D3D3";
+  }
   const large = width / 1.3;
   const small = width / 2;
   const btnSize = size === "large" ? large : small;
@@ -34,12 +38,16 @@ const Button = ({
   };
 
   const buttonStyle = {
-    marginTop: 10
-  }
+    marginTop: 10,
+  };
 
   return (
-    <View style={[buttonStyle]} >
-      <TouchableOpacity onPress={onPress} activeOpacity={0.7}>
+    <View style={[buttonStyle]}>
+      <TouchableOpacity
+        disabled={disabled}
+        onPress={onPress}
+        activeOpacity={0.7}
+      >
         <View style={[containerCommonStyle, border]}>
           <Text style={[textCommonStyle]}> {text} </Text>
         </View>
